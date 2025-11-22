@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< HEAD
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.13" project-jdk-type="Python SDK" />
+=======
+  <component name="Black">
+    <option name="sdkName" value="Python 3.14 (minesweeper)" />
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.14 (minesweeper)" project-jdk-type="Python SDK" />
+>>>>>>> ab7d743 (pygame 실행 연습 및 화면 그리기)
 </project>
