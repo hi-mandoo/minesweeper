@@ -18,13 +18,18 @@ while running:
     # 전체 픽셀 / 2 = 화면의 중간지점
     # (한 칸의 크기 * 전체 칸 수) / 2 = 보드의 중간 지점
     # 화면의 중간 지점 - 보드의 중간 지점 = 그리기 시작할 픽셀 위치(가운데 정렬)
-    start_x = 320 / 2 - (26 * 9) / 2
-    start_y = 240 / 2 - (26 * 9) / 2
+    size = 26
+    width = 3
+
+    start_x = 320 / 2 - (size * 9) / 2
+    start_y = 240 / 2 - (size * 9) / 2
+    COLOR_WHITE = (255, 255, 255)
 
     for x in range(9):
         for y in range(9):
-            pygame.draw.rect(surface, (255, 255, 255),
-                             (start_x + x * 26, start_y + y * 26, 27, 27), 1)
+            # size + width을 하는 이유는 rect가 맞닿은 선 때문에 굵게 보여서 겹쳐지게 그리기 위함
+            rect = (start_x + x * size, start_y + y * size, size + width, size + width)
+            pygame.draw.rect(surface, COLOR_WHITE, rect, width)
 
     pygame.display.flip() # 화면에 반영
     fps.tick(60)
