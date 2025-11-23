@@ -10,6 +10,22 @@ def main():
 
     fps = pygame.time.Clock()
 
+    FIELD_MINE = "M"
+
+    mine_field = [
+        [None, None, None, None, None, None, None, FIELD_MINE, None, ],
+        [None, None, None, None, None, None, None, None, None, ],
+        [None, FIELD_MINE, None, None, None, FIELD_MINE, None, None, None, ],
+        [None, None, None, None, None, None, None, None, None, ],
+        [None, None, None, None, None, None, None, None, None, ],
+        [None, FIELD_MINE, None, None, None, None, None, None, None, ],
+        [None, None, None, None, None, None, None, None, None, ],
+        [None, None, None, None, None, None, FIELD_MINE, None, None, ],
+        [None, None, None, None, None, None, None, None, None, ],
+    ]
+
+    print(mine_field)
+
     running = True
 
     while running:
@@ -22,7 +38,7 @@ def main():
         # (한 칸의 크기 * 전체 칸 수) / 2 = 보드의 중간 지점
         # 화면의 중간 지점 - 보드의 중간 지점 = 그리기 시작할 픽셀 위치(가운데 정렬)
         size = int(SCREEN_HEIGHT / 9)
-        width = 1
+        rect_width = 1
 
         start_x = SCREEN_WIDTH / 2 - (size * 9) / 2
         start_y = SCREEN_HEIGHT / 2 - (size * 9) / 2
@@ -30,8 +46,12 @@ def main():
         for x in range(9):
             for y in range(9):
                 # size + width을 하는 이유는 rect가 맞닿은 선 때문에 굵게 보여서 겹쳐지게 그리기 위함
-                rect = (start_x + x * size, start_y + y * size, size + width, size + width)
-                pygame.draw.rect(surface, WHITE, rect, width)
+                rect = (start_x + x * size, start_y + y * size, size + rect_width, size + rect_width)
+                pygame.draw.rect(surface, WHITE, rect, rect_width)
+                value = mine_field[y][x]
+
+                if value == FIELD_MINE:
+                    pygame.draw.rect(surface, WHITE, rect, 10)
 
         pygame.display.flip()  # 화면에 반영
         fps.tick(FPS)
