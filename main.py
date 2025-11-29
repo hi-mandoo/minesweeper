@@ -4,6 +4,20 @@ from const import *
 import random
 
 
+# 주변의 mine을 찾아서 개수를 return하는 함수
+def calculate_mine_count(mine_field, x, y):
+    result = 0  # mine의 개수
+
+    for y_delta in [-1, 0, 1]:
+        for x_delta in [-1, 0, 1]:
+            try:
+                value = mine_field[y + y_delta][x + x_delta]
+                if value == FIELD_MINE: result += 1
+            except IndexError:
+                pass
+    return result
+
+
 def main():
     pygame.init()  # pygame 실행
 
@@ -25,6 +39,12 @@ def main():
         if mine_field[y][x] is None:
             mine_field[y][x] = FIELD_MINE
             mine_count += 1
+
+    for y in range(9):
+        for x in range(9):
+            if (mine_field[y][x] == None):
+                mine_count = calculate_mine_count(mine_field, x, y)
+                mine_field[y][x] = mine_count
 
     print(mine_field)
 
@@ -54,6 +74,8 @@ def main():
 
                 if value == FIELD_MINE:
                     pygame.draw.rect(surface, WHITE, rect, 10)
+                else:
+                    pygame.draw.rect(surface, (255, 255, 0), rect, value)  # 숫자 값 만큼 노란색 채우기, 0인 경우 가득 채워
 
         pygame.display.flip()  # 화면에 반영
         fps.tick(FPS)
