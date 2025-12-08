@@ -7,6 +7,13 @@ FPS = 60
 # colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+GREY = (127, 127, 127)
 
 # field
 FIELD_MINE = "M"
+
+# state
+STATE_HIDDEN = "H"
+STATE_OPEN = "O"
+STATE_FLAGGED = "F"
+STATE_QUESTION = "?"

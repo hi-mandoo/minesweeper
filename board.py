@@ -6,8 +6,14 @@ from const import *
 class Board:
     def __init__(self):
         self.mine_field = [
-            [None for x in range(9)] for y in range(9)
+            [None for _ in range(9)] for _ in range(9)
         ]
+
+        self.state_field = [
+            [STATE_HIDDEN for _ in range(9)] for _ in range(9)
+        ]
+
+        self.font = pygame.font.Font(None, 17)
 
         max_mine_count = 10
         mine_count = 0
@@ -33,7 +39,6 @@ class Board:
         # (한 칸의 크기 * 전체 칸 수) / 2 = 보드의 중간 지점
         # 화면의 중간 지점 - 보드의 중간 지점 = 그리기 시작할 픽셀 위치(가운데 정렬)
         size = int(SCREEN_HEIGHT / 9)
-        rect_width = 1
 
         start_x = SCREEN_WIDTH / 2 - (size * 9) / 2
         start_y = SCREEN_HEIGHT / 2 - (size * 9) / 2
@@ -41,14 +46,18 @@ class Board:
         for x in range(9):
             for y in range(9):
                 # size + width을 하는 이유는 rect가 맞닿은 선 때문에 굵게 보여서 겹쳐지게 그리기 위함
-                rect = (start_x + x * size, start_y + y * size, size + rect_width, size + rect_width)
-                pygame.draw.rect(surface, WHITE, rect, rect_width)
-                value = self.mine_field[y][x]
+                rect = (start_x + x * size, start_y + y * size, size + 1, size + 1)
+                pygame.draw.rect(surface, WHITE, rect, 1)
 
-                if value == FIELD_MINE:
-                    pygame.draw.rect(surface, WHITE, rect, 10)
-                else:
-                    pygame.draw.rect(surface, (255, 255, 0), rect, value)  # 숫자 값 만큼 노란색
+                fill_rect = (start_x + x * size + 2, start_y + y * size + 2, size + 1 - 3, size + 1 - 3)
+                state = self.state_field[y][x]
+                if state == STATE_HIDDEN:
+                    pygame.draw.rect(surface, GREY, fill_rect, 0)
+                elif state == STATE_OPEN:
+                    mine = self.mine_field[y][x]
+                    text = self.font.render(f"{mine}", True, WHITE, None)
+                    text_rect = text.get_rect(center=(start_x + x * size + size / 2, start_y + y * size + size / 2))
+                    surface.blit(text, text_rect)
 
     # 주변의 mine을 찾아서 개수를 return하는 함수
     def calculate_mine_count(self, x, y):
@@ -80,3 +89,5 @@ class Board:
         # index 좌표 계산
         index_pos = (int(relative_pos[0] / size), int(relative_pos[1] / size))
         print("index_pos: ", index_pos)
+
+        self.state_field[index_pos[1]][index_pos[0]] = STATE_OPEN
