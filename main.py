@@ -20,6 +20,9 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:  # 게임 창을 닫는 등의 이벤트가 발생한 상황
                 running = False
+            if event.type == pygame.MOUSEBUTTONUP:
+                board.on_click(event.pos, event.button)
+
         surface.fill(BLACK)  # 스크린 검은색으로 초기화
 
         board.draw(surface)

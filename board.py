@@ -62,3 +62,21 @@ class Board:
                 except IndexError:
                     pass
         return result
+
+    def on_click(self, pos, button):
+        print(f"pos: {pos}, button: {button}")
+        size = int(SCREEN_HEIGHT / 9)
+        start_x = SCREEN_WIDTH / 2 - (size * 9) / 2
+        start_y = SCREEN_HEIGHT / 2 - (size * 9) / 2
+        relative_pos = (pos[0] - start_x, pos[1] - start_y)
+
+        # board를 벗어난 경우
+        if relative_pos[0] < 0: return
+        if relative_pos[1] < 0: return
+
+        if size * 9 < relative_pos[0]: return
+        if size * 9 < relative_pos[1]: return
+
+        # index 좌표 계산
+        index_pos = (int(relative_pos[0] / size), int(relative_pos[1] / size))
+        print("index_pos: ", index_pos)
